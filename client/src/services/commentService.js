@@ -1,7 +1,6 @@
 import axios from 'axios';
 const API_URL = `${process.env.REACT_APP_API_URL}/comments/`;
 
-// Helper to get the auth token from local storage
 const getToken = () => {
   const user = JSON.parse(localStorage.getItem('user'));
   return user ? `Bearer ${user.token}` : '';

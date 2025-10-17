@@ -25,7 +25,6 @@ const HomePage = () => {
     );
   };
 
-  // Helper function to structure comments into a nested tree
   const nestComments = (commentList) => {
     const commentMap = {};
     commentList.forEach(comment => commentMap[comment._id] = {...comment, children: []});
