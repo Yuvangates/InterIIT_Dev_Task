@@ -1,13 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const { getAllComments, createComment, upvoteComment } = require('../controllers/commentController');
+const { protect } = require('../middleware/authMiddleware'); 
 
-// Define the routes
-router.get('/', (req, res) => {
-    res.json({ message: "Get all comments route is working!" });
-});
+router.get('/', getAllComments);
 
-router.post('/', (req, res) => {
-    res.json({ message: "Create a new comment route is working!" });
-});
+router.post('/', protect, createComment);
+router.patch('/:id/upvote', protect, upvoteComment);
 
 module.exports = router;

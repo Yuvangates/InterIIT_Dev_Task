@@ -1,24 +1,22 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors'); // Import cors
-require('dotenv').config({path:'../.env'}); // Corrected path for .env
+require('dotenv').config({ path: '../.env' });
 
-// Import routes (we will create these files next)
-const authRoutes = require('./routes/auth');
-const commentRoutes = require('./routes/comments');
+
+const express = require('express');
+const cors = require('cors');
+const connectDB = require('./config/db'); 
+const authRoutes = require('./routes/auth'); 
+const commentRoutes = require('./routes/comments'); 
+ 
+connectDB();
 
 const app = express();
 
-// Middleware
-app.use(cors()); // Allows your frontend to make requests to this server
-app.use(express.json()); // Parses incoming JSON requests and puts the data in `req.body`
+app.use(cors());
+app.use(express.json());
 
-const dbURL = process.env.dbURL;
+app.use('/api/auth', authRoutes);
+app.use('/api/comments', commentRoutes);
 
-mongoose.connect(dbURL)
-  .then(() => app.listen(3000, () => console.log('✅ Server running on port 3000'))) // Changed to 5000 to avoid conflicts with client
-  .catch(err => console.log('❌ DB Connection Error:', err));
+const PORT = process.env.PORT || 5000;
 
-// Use the routes
-app.use('/api/auth', authRoutes); // All auth routes will start with /api/auth
-app.use('/api/comments', commentRoutes); // All comment routes will start with /api/comments
+app.listen(PORT, () => console.log(`🚀 Server is flying on port ${PORT}`));

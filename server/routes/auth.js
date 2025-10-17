@@ -1,17 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const { signup, login } = require('../controllers/authController');
 
-// We will create the controller functions next
-// const { signup, login } = require('../controllers/authController');
+router.post('/signup', signup);
 
-// Define the routes
-router.post('/signup', (req, res) => {
-    res.send("signup");
-    res.json({ message: "Signup route is working!" }); // Placeholder response
-});
-
-router.post('/login', (req, res) => {
-    res.json({ message: "Login route is working!" }); // Placeholder response
-});
+router.post('/login', login);
 
 module.exports = router;
