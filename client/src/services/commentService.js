@@ -21,11 +21,16 @@ const upvote = (id) => {
     headers: { Authorization: getToken() },
   });
 };
-
+const remove = (id) => {
+  return axios.delete(API_URL + id, {
+    headers: { Authorization: getToken() },
+  });
+};
 const commentService = {
   getAll,
   create,
   upvote,
+  remove,
 };
 
 export default commentService;

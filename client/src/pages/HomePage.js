@@ -25,6 +25,24 @@ const HomePage = () => {
     );
   };
 
+  const handleDeleteComment = (deletedCommentId) => {
+    const getDescendantIds = (parentId) => {
+      let descendantIds = [];
+      const children = comments.filter(comment => comment.parent === parentId);
+      for (const child of children) {
+        descendantIds.push(child._id);
+        descendantIds = descendantIds.concat(getDescendantIds(child._id));
+      }
+      return descendantIds;
+    };
+    
+    const idsToDelete = [deletedCommentId, ...getDescendantIds(deletedCommentId)];
+    
+    setComments(prevComments => 
+      prevComments.filter(comment => !idsToDelete.includes(comment._id))
+    );
+  };
+
   const nestComments = (commentList) => {
     const commentMap = {};
     commentList.forEach(comment => commentMap[comment._id] = {...comment, children: []});
@@ -55,7 +73,7 @@ const HomePage = () => {
       </div>
 
       <CommentForm onCommentAdded={handleAddComment} />
-      <CommentList comments={nestedComments} onUpvote={handleUpvote} onReplyAdded={handleAddComment} />
+      <CommentList comments={nestedComments} onUpvote={handleUpvote} onReplyAdded={handleAddComment} onDelete={handleDeleteComment} />
     </div>
   );
 };
